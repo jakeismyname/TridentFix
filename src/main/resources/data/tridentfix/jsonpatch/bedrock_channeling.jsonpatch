@@ -1,0 +1,8 @@
+@version "1";
+@target "minecraft:enchantment/channeling.json";
+
+$'effects'.'minecraft:hit_block'[0].'requirements'.'terms'[0] =
+    {
+      "condition": "minecraft:weather_check",
+      "raining": true
+    };
