@@ -13,7 +13,7 @@ import static powercyphe.tridentfix.TFGamerules.getGameRule;
 public abstract class LightningEntityMixin {
 		@WrapWithCondition(method = "tick()V", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LightningEntity;spawnFire(I)V"))
 		private boolean tridentfix$shouldSpawnFire(LightningEntity entity, int spreadAttempts) {
-			return entity.getChanneler() == null || getGameRule(entity.getWorld(), CHANNELING_MAKES_FIRE).get();
+			return entity.getChanneler() == null || getGameRule(entity.getEntityWorld(), CHANNELING_MAKES_FIRE).get();
 		}
 		
 }

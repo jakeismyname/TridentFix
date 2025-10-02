@@ -22,16 +22,12 @@
 	"icon": "assets/tridentfix/icon.png",
 	"environment": "*",
 	"entrypoints": {
-		"main": [
-			"powercyphe.tridentfix.TridentFix"
-		]
+		"main": ["powercyphe.tridentfix.TridentFix"]
 	},
-	"mixins": [
-		"tridentfix.mixins.json"
-	],
+	"mixins": ["tridentfix.mixins.json"],
 	"depends": {
 		"java": ">=21",
-		"minecraft": "~1.21.3",
+		"minecraft": ">=1.21.9",
 		"fabricloader": "*",
 		"fabric-api": "*"
 	}

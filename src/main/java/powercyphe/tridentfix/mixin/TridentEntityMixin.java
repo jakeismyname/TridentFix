@@ -44,12 +44,12 @@ public abstract class TridentEntityMixin extends PersistentProjectileEntity {
 		
 		@Inject(method = "tick", at = @At("HEAD"))
 		private void tridentfix$tickMixin(CallbackInfo ci) {
-				if (!this.getWorld().isClient()) {
+				if (!this.getEntityWorld().isClient()) {
 						if (!this.dealtDamage && this.isOwnerAlive() && this.dataTracker.get(LOYALTY) > 0) {
-								final int forceReturnDist = TFGamerules.getGameRule(this.getWorld(), TFGamerules.LOYALTY_FORCE_RETURN_DISTANCE).get();
+								final int forceReturnDist = TFGamerules.getGameRule(this.getEntityWorld(), TFGamerules.LOYALTY_FORCE_RETURN_DISTANCE).get();
 								if (
-									this.getWorld().isOutOfHeightLimit(this.getBlockY()) ||
-									(forceReturnDist > -1 && this.getPos().distanceTo(this.getOwner().getPos()) >= forceReturnDist) ||
+									this.getEntityWorld().isOutOfHeightLimit(this.getBlockY()) ||
+									(forceReturnDist > -1 && this.getEntityPos().distanceTo(this.getOwner().getEntityPos()) >= forceReturnDist) ||
 									this.isRegionUnloaded()
 								) {
 										this.dealtDamage = true;
@@ -62,9 +62,9 @@ public abstract class TridentEntityMixin extends PersistentProjectileEntity {
 		@WrapMethod(method = "tryPickup")
 		private boolean tridentfix$returnToSlot(PlayerEntity player, Operation<Boolean> original) {
 				if (
-						!player.getWorld().isClient() &&
+						!player.getEntityWorld().isClient() &&
 						!player.isCreative() &&
-						TFGamerules.getGameRule(player.getWorld(), LOYALTY_RETURN_TO_THROWN_SLOT).get() &&
+						TFGamerules.getGameRule(player.getEntityWorld(), LOYALTY_RETURN_TO_THROWN_SLOT).get() &&
 						this.getOwner() instanceof ServerPlayerEntity owner &&
 						player.equals(owner) &&
 						this.getItemStack().isOf(TRIDENT) &&

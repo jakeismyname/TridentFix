@@ -16,7 +16,9 @@ import java.util.function.Consumer;
 
 import static net.minecraft.component.DataComponentTypes.CUSTOM_DATA;
 
-public class ItemDataUtil {
+public final class ItemDataUtil {
+		private ItemDataUtil() {}
+		
 		public static int getLevel(RegistryKey<Enchantment> key, ItemStack stack, DynamicRegistryManager registryManager) {
 				return registryManager.getOrThrow(RegistryKeys.ENCHANTMENT).getOptional(key)
 					.map(ench -> EnchantmentHelper.getLevel(ench, stack)).orElse(0);

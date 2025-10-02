@@ -20,7 +20,7 @@ import static powercyphe.tridentfix.TridentFix.RETURN_SLOT_KEY;
 public class TridentItemMixin {
 		@Inject(method = "onStoppedUsing", at = @At("HEAD"))
 		private void storeSlotMixin(ItemStack stack, World world, LivingEntity user, int remainingUseTicks, CallbackInfoReturnable<Boolean> cir) {
-				if (!user.getWorld().isClient() && user instanceof PlayerEntity player) {
+				if (!user.getEntityWorld().isClient() && user instanceof PlayerEntity player) {
 						if (stack.getItem() == Items.TRIDENT) {
 								ItemDataUtil.modifyCustomData(
 									stack,
