@@ -15,6 +15,13 @@ repositories {
 	maven {
 		url 'https://jitpack.io'
 	}
+	maven {
+		name = 'Modrinth'
+		url = 'https://api.modrinth.com/maven'
+		content {
+			includeGroup 'maven.modrinth'
+		}
+	}
 }
 
 dependencies {
@@ -24,7 +31,8 @@ dependencies {
 	modImplementation("net.fabricmc:fabric-loader:${project.loader_version}")
 
 	modImplementation("net.fabricmc.fabric-api:fabric-api:${project.fabric_version}")
-	include(modImplementation("com.github.mattidragon:jsonpatcher:${project.jsonpatcher_version}"))
+//	include(modImplementation("com.github.mattidragon:jsonpatcher:${project.jsonpatcher_version}"))
+	modImplementation("maven.modrinth:patched:7.4.1+1.21.1-fabric")
 	implementation(annotationProcessor("io.github.llamalad7:mixinextras-fabric:${project.mixinextras_version}"))
 	include("io.github.llamalad7:mixinextras-fabric:${project.mixinextras_version}:slim")
 }

@@ -12,6 +12,9 @@
 			"links": {
 				"modmenu.discord": "https://discord.gg/Dmp2dbyNrs"
 			}
+		},
+		"patched": {
+			"format_version": 1
 		}
 	},
 	"contact": {
@@ -29,6 +32,7 @@
 		"java": ">=21",
 		"minecraft": ">=1.21.9",
 		"fabricloader": "*",
-		"fabric-api": "*"
+		"fabric-api": "*",
+		"patched": ">=7.4.1+1.21.1-fabric"
 	}
 }
