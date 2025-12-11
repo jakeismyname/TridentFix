@@ -1,37 +1,36 @@
 package powercyphe.tridentfix;
 
-import net.minecraft.component.type.NbtComponent;
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtElement;
-import net.minecraft.nbt.NbtType;
-import net.minecraft.registry.DynamicRegistryManager;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
-
 import java.util.Optional;
 import java.util.function.Consumer;
+import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
+import net.minecraft.nbt.TagType;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.CustomData;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 
-import static net.minecraft.component.DataComponentTypes.CUSTOM_DATA;
+import static net.minecraft.core.component.DataComponents.CUSTOM_DATA;
 
 public final class ItemDataUtil {
 		private ItemDataUtil() {}
 		
-		public static int getLevel(RegistryKey<Enchantment> key, ItemStack stack, DynamicRegistryManager registryManager) {
-				return registryManager.getOrThrow(RegistryKeys.ENCHANTMENT).getOptional(key)
-					.map(ench -> EnchantmentHelper.getLevel(ench, stack)).orElse(0);
+		public static int getLevel(ResourceKey<Enchantment> key, ItemStack stack, RegistryAccess registryManager) {
+				return registryManager.lookupOrThrow(Registries.ENCHANTMENT).get(key)
+					.map(ench -> EnchantmentHelper.getItemEnchantmentLevel(ench, stack)).orElse(0);
 		}
 		
-		public static void modifyCustomData(ItemStack stack, Consumer<NbtCompound> modifier) {
-				stack.set(CUSTOM_DATA, stack.getOrDefault(CUSTOM_DATA, NbtComponent.DEFAULT).apply(modifier));
+		public static void modifyCustomData(ItemStack stack, Consumer<CompoundTag> modifier) {
+				stack.set(CUSTOM_DATA, stack.getOrDefault(CUSTOM_DATA, CustomData.EMPTY).update(modifier));
 		}
 		
 		@SuppressWarnings("unchecked")
-		public static <T extends NbtElement> Optional<T> getCustomData(ItemStack stack, String key, NbtType<T> type) {
-				final NbtElement element = stack.getOrDefault(CUSTOM_DATA, NbtComponent.DEFAULT).copyNbt().get(key);
-				if (element != null && element.getNbtType().equals(type)) {
+		public static <T extends Tag> Optional<T> getCustomData(ItemStack stack, String key, TagType<T> type) {
+				final Tag element = stack.getOrDefault(CUSTOM_DATA, CustomData.EMPTY).copyTag().get(key);
+				if (element != null && element.getType().equals(type)) {
 						return Optional.of((T) element);
 				}
 				return Optional.empty();

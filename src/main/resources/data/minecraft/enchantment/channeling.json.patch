@@ -1,8 +1,0 @@
-{
-    "op": "replace",
-    "path": "/effects/minecraft:hit_block/0/requirements/terms/0",
-    "value": {
-      "condition": "minecraft:weather_check",
-      "raining": true
-    }
-}

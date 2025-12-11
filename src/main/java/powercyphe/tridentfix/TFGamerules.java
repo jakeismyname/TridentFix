@@ -1,29 +1,28 @@
 package powercyphe.tridentfix;
 
-import net.fabricmc.fabric.api.gamerule.v1.GameRuleFactory;
-import net.fabricmc.fabric.api.gamerule.v1.GameRuleRegistry;
-
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.world.GameRules;
-import net.minecraft.world.World;
+import net.fabricmc.fabric.api.gamerule.v1.GameRuleBuilder;
+import net.minecraft.resources.Identifier;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.gamerules.GameRule;
 
 public interface TFGamerules {
-		GameRules.Key<GameRules.BooleanRule> CHANNELING_MAKES_FIRE =
-			register("channelingMakesFire", GameRuleFactory.createBooleanRule(false));
+		GameRule<Boolean> CHANNELING_MAKES_FIRE =
+			register("channeling_makes_fire", GameRuleBuilder.forBoolean(false));
 		
-		GameRules.Key<GameRules.IntRule> LOYALTY_FORCE_RETURN_DISTANCE =
-			register("loyaltyForceReturnDist", GameRuleFactory.createIntRule(64));
+		GameRule<Integer> LOYALTY_FORCE_RETURN_DISTANCE =
+			register("loyalty_force_return_distance", GameRuleBuilder.forInteger(64));
 		
-		GameRules.Key<GameRules.BooleanRule> LOYALTY_RETURN_TO_THROWN_SLOT =
-			register("loyaltyReturnToThrownSlot", GameRuleFactory.createBooleanRule(true));
+		GameRule<Boolean> LOYALTY_RETURN_TO_THROWN_SLOT =
+			register("loyalty_return_to_thrown_slot", GameRuleBuilder.forBoolean(true));
 		
-		private static <T1 extends GameRules.Rule<T1>, T2 extends GameRules.Type<T1>> GameRules.Key<T1> register(String name, T2 rule) {
-				return GameRuleRegistry.register(TridentFix.MOD_ID + "_" + name, GameRules.Category.MISC, rule);
+		private static <T> GameRule<T> register(String name, GameRuleBuilder<T> builder) {
+				return builder.buildAndRegister(Identifier.fromNamespaceAndPath(TridentFix.MOD_ID, name));
 		}
 		
-		static <T1 extends GameRules.Rule<T1>> T1 getGameRule(World world, GameRules.Key<T1> key) {
-				if (world instanceof ServerWorld serverWorld) {
-						return serverWorld.getServer().getGameRules().get(key);
+		static <T> T getGameRule(Level world, GameRule<T> rule) {
+				if (world instanceof ServerLevel serverWorld) {
+						return serverWorld.getGameRules().get(rule);
 				} else throw new IllegalStateException("Tried to get gamerule on client!");
 		}
 		
